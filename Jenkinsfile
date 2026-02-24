@@ -5,13 +5,13 @@ pipeline {
         string(name: 'ENVIRONMENT', defaultValue: 'dev', description: 'Environment to deploy to')
         choice(name: 'deploy', description: 'Deploy to production', choices: ['dev', 'staging', 'prod'])
 
-    }
+        }
     environment {
         course = 'jenkins'
-    }
-        options {
-            timeout(time: 20, unit: 'seconds')
         }
+    options {
+            timeout(time: 20, unit: 'seconds')
+        }    
         
     stages {
         stage('Build') {
