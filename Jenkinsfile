@@ -1,15 +1,18 @@
 // creating a pipelone for jenkins
 pipeline {
     agent any
-    environment {
-        ENV = 'dev'
-    }
-        timeout(time: 4, unit: 'seconds')
-        parameters {
-        string(name: 'ENV', defaultValue: 'dev', description: 'Environment to deploy to')
-        text(name: 'deploy', description: 'Deploy to production', choices: ['dev', 'staging', 'prod'])
+    parameters {
+        string(name: 'ENVIRONMENT', defaultValue: 'dev', description: 'Environment to deploy to')
+        choice(name: 'deploy', description: 'Deploy to production', choices: ['dev', 'staging', 'prod'])
 
     }
+    environment {
+        course = jenkins
+    }
+        options {
+            timeout(time: 4, unit: 'seconds')
+        }
+        
     stages {
         stage('Build') {
             steps {
@@ -22,7 +25,7 @@ pipeline {
             steps {
                 script {
                     sh """
-                    echo 'environment is ${ENV}'
+                    echo 'environment is ${params.ENVIRONMENT}'
                     env
                     """
                 }
