@@ -26,7 +26,7 @@ pipeline {
                 script {
                     sh """
                     echo 'environment is ${params.ENVIRONMENT}'
-                    // env
+
                     """
                 }
                 echo 'Testing...'
