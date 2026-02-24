@@ -3,7 +3,7 @@ pipeline {
     agent 
         {
             node {
-                label 'cataloogue-nodejs'
+                label 'catalogue-nodejs'
             }
         }
     parameters {
@@ -13,6 +13,7 @@ pipeline {
         }
     environment {
         course = 'jenkins'
+        Appversion = ' '
         }
     // options {
     //     timeout(time: 20, unit: 'seconds')
@@ -45,6 +46,15 @@ pipeline {
                 }
             steps {
                  echo "since the choice in parameters is: ${params.deploy} Deploying..."
+            }
+        }
+        stage('reading jsonfile') {
+            steps {
+                script {
+                    def packagejson= readJSON file: 'package.json'
+                    appversion = packagejson.version
+                    echo "App version is ${appversion}"
+                }
             }
         }
     }
