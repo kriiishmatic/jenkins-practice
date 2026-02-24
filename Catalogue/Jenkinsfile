@@ -13,7 +13,7 @@ pipeline {
         }
     environment {
         course = 'jenkins'
-        Appversion = ' '
+        appversion = ' '
         }
     // options {
     //     timeout(time: 20, unit: 'seconds')
@@ -52,8 +52,8 @@ pipeline {
             steps {
                 script {
                     def packagejson= readJSON file: 'package.json'
-                    appversion = packagejson.version
-                    echo "App version is ${appversion}"
+                    env.appversion = packagejson.version
+                    echo "App version is ${env.appversion}"
                 }
             }
         }
