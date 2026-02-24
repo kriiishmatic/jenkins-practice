@@ -19,7 +19,8 @@ pipeline {
                 echo 'Deploying...'
             }
         }
-        post {
+    }
+     post {
             always {
                 echo 'This will always run'
                 cleanWs()
@@ -31,5 +32,4 @@ pipeline {
                 echo 'This will run only if failed'
             }
         }
-    }
 }
