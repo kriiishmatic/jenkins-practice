@@ -30,6 +30,7 @@ pipeline {
                     """
                 }
                 echo 'Testing...'
+                echo 'testing github webhooks'
             }
         }
 
