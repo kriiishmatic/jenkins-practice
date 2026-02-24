@@ -7,7 +7,7 @@ pipeline {
         timeout(time: 4, unit: 'seconds')
         parameters {
         string(name: 'ENV', defaultValue: 'dev', description: 'Environment to deploy to')
-        text(name: 'Should_we_deploy_to_prod', description: 'Deploy to production', choices: ['dev', 'staging', 'prod'])
+        text(name: 'deploy', description: 'Deploy to production', choices: ['dev', 'staging', 'prod'])
 
     }
     stages {
@@ -32,10 +32,10 @@ pipeline {
 
         stage('Deploy') {
             when {
-                    expression { return params.Should_we_deploy_to_prod == 'prod' }
+                    expression { return params.deploy == 'prod' }
                 }
             steps {
-                 echo "since the choice in parameters is: ${params.Should_we_deploy_to_prod} Deploying..."
+                 echo "since the choice in parameters is: ${params.deploy} Deploying..."
             }
         }
     }
