@@ -4,8 +4,8 @@ pipeline {
     environment {
         ENV = 'dev'
     }
-    timeout(time: 4, unit: 'seconds')
-    parameters {
+        timeout(time: 4, unit: 'seconds')
+        parameters {
         string(name: 'ENV', defaultValue: 'dev', description: 'Environment to deploy to')
         text(name: 'Should_we_deploy_to_prod', description: 'Deploy to production', choices: ['dev', 'staging', 'prod'])
 
