@@ -1,24 +1,20 @@
-// creating a pipelone for jenkins
 pipeline {
-    agent 
-        {
-            node {
-                label 'catalogue-nodejs'
-            }
+    agent {
+        node {
+            label 'catalogue-nodejs'
         }
+    }
+
     parameters {
         string(name: 'ENVIRONMENT', defaultValue: 'dev', description: 'Environment to deploy to')
-        choice(name: 'deploy', description: 'Deploy to production', choices: ['dev', 'staging', 'prod'])
+        choice(name: 'deploy', choices: ['dev', 'staging', 'prod'], description: 'Deploy target')
+    }
 
-        }
     environment {
         course = 'jenkins'
-        appversion = ' '
-        }
-    // options {
-    //     timeout(time: 20, unit: 'seconds')
-    //     }    
-        
+        appversion = ''
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -32,46 +28,46 @@ pipeline {
                 script {
                     sh """
                     echo 'environment is ${params.ENVIRONMENT}'
-
                     """
                 }
                 echo 'Testing...'
-                echo 'testing github webhooks rsolved added 1'
+                echo 'testing github webhooks resolved added 1'
             }
         }
 
         stage('Deploy') {
             when {
-                    expression { return params.deploy == 'prod' }
-                }
+                expression { params.deploy == 'prod' }
+            }
             steps {
-                 echo "since the choice in parameters is: ${params.deploy} Deploying..."
+                echo "since the choice in parameters is: ${params.deploy} Deploying..."
             }
         }
+
         stage('reading jsonfile') {
             steps {
                 script {
-                    def packagejson= readJSON file: 'package.json'
+                    def packagejson = readJSON file: 'package.json'
                     env.appversion = packagejson.version
                     echo "App version is ${env.appversion}"
                 }
             }
         }
     }
-     post {
-            always {
-                echo 'This will always run'
-                cleanWs()
-            }
-            success {
-                echo 'This will run only if successful'
-            }
-            failure {
-                echo 'This will run only if failed'
-            }
-            aborted {
-                echo 'This will run only if aborted'
-            }
-        }
 
+    post {
+        always {
+            echo 'This will always run'
+            cleanWs()
+        }
+        success {
+            echo 'This will run only if successful'
+        }
+        failure {
+            echo 'This will run only if failed'
+        }
+        aborted {
+            echo 'This will run only if aborted'
+        }
+    }
 }
